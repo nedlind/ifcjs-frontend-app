@@ -13,12 +13,14 @@ export const Authenticator: FC = () => {
             const user = foundUser ? {...foundUser} : null;
             dispatch({type: "UPDATE_USER", payload: user})
         });
-
-        useEffect(() => {
-            if(!authInitialized) {
-                listenToAuthChanges();
-                authInitialized = true;
-            }
-        },[]);
     };
+
+    useEffect(() => {
+        if(!authInitialized) {
+            listenToAuthChanges();
+            authInitialized = true;
+        }
+    },[]);
+
+    return <></>;
 };
