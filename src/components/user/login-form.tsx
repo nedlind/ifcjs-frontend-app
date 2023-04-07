@@ -1,5 +1,6 @@
 import {FC} from "react";
 import { useAppContext } from "../../middleware/context-provider";
+import { Button } from "@mui/material";
 
 export const LoginForm: FC = () => {
 
@@ -15,10 +16,10 @@ export const LoginForm: FC = () => {
 
     return (<h1>{state.user ? (
         <>
-        <button onClick={onlogout}>Logout</button>
+        <Button onClick={onlogout}>Logout</Button>
         <p>{state.user.displayName}</p> 
         </>
         ) : (
-        <button onClick={onlogin}>Login</button>
+        <Button onClick={onlogin}>Login</Button>
         )}</h1>)
 }
