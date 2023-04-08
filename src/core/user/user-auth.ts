@@ -1,5 +1,4 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
-import { Action } from "../middleware/actions";
 
 export const userAuth = {
     login: () => {
