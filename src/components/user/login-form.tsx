@@ -11,7 +11,7 @@ export const LoginForm: FC = () => {
         dispatch( {type: "LOGIN" })
     }
 
-    if (!state.user) {
+    if (state.user) {
         return <Navigate to="/map"/>
     }
 
