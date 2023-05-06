@@ -6,7 +6,8 @@ export const reducer = (state:State, action: Action) => {
         return {...state, user: action.payload }
     }
     if(action.type === "OPEN_BUILDING") {
-        return { ...state, building: null };
+        console.log("state open building");
+        return { ...state, building: action.payload };
     }
     if(action.type === "CLOSE_BUILDING") {
         return { ...state, building: null };

@@ -38,7 +38,7 @@ export class MapScene {
         this.labels = {};
     }
 
-    async addBuidling(user: User) {
+    async addBuilding(user: User) {
         const { lat, lng } = this.clickedCoordinates;
         const userID = user.uid;
         const building = { userID, lat, lng, uid: ""};
@@ -77,8 +77,8 @@ export class MapScene {
         const div = document.createElement("div");
         div.textContent = "🏢";
         div.onclick = () => {
-            this. events.trigger({ type: "OPEN_BUILDING", payload: id })
-        }
+            this.events.trigger({ type: "OPEN_BUILDING", payload: id })
+        };
         div.classList.add("thumbnail");
         return div;
     }

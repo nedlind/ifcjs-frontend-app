@@ -7,6 +7,7 @@ export class Events {
         if (!this.list[type]) {
             this.list[type] = [];
         }
+        this.list[type].push(callback)
     }
 
     trigger(action: Action) {

@@ -21,7 +21,7 @@ export const mapHandler = {
 
     async addBuilding(user: User) {
         if (this.viewer) {
-            await this.viewer.addBuidling(user);
+            await this.viewer.addBuilding(user);
         }
     }
 };
