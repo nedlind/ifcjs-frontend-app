@@ -38,6 +38,12 @@ export class MapScene {
         this.labels = {};
     }
 
+    async getAllBuildings(user: User) {
+        const buildings = await this.database.getBuildings(user);
+        if (!this.components) return;
+        this.addToScene(buildings);
+    }
+
     async addBuilding(user: User) {
         const { lat, lng } = this.clickedCoordinates;
         const userID = user.uid;
@@ -46,14 +52,8 @@ export class MapScene {
         this.addToScene([building]);
     }
 
-    async getAllBuildings(user: User) {
-        const buildings = await this.database.getBuildings(user);
-        if (!this.components) return;
-        this.addToScene(buildings);
-    }
-
-    private addToScene(buidlings: Building[]) {
-        for (const building of buidlings) {
+    private addToScene(buildings: Building[]) {
+        for (const building of buildings) {
             const { uid, lng, lat } = building;
             const htmlElement = this.createHTMLElement(uid);
             const label = new CSS2DObject(htmlElement);

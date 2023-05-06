@@ -4,32 +4,38 @@ import { Navigate } from "react-router-dom";
 import { getDrawerHeader } from "./mui-utils";
 import { Box, CssBaseline } from "@mui/material";
 import { BuildingTopBar } from "./building-topbar";
-import { SmallDrawer } from "./small-drawer";
+import { BuildingDrawer } from "./building-drawer";
 
 export const BuildingViewer: FC = () => {
     const [open, setOpen] = useState(false);
     const [width] = useState(240);
 
-    const [{ building }] = useAppContext();
+    const [{ building, user }] = useAppContext();
     if (!building) {
         return <Navigate to="/map" />
     }
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    if (!user) {
+        return <Navigate to="/login"/>
+    }
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+    const toggleDrawer = (active: boolean) => {
+        setOpen(active);
+    }
 
     const DrawerHeader = getDrawerHeader();
 
     return (
         <Box sx={{ display: "flex" }}>
             <CssBaseline />
-            <BuildingTopBar width={width} open={open} onOpen={handleDrawerOpen} />
-            <SmallDrawer width={width} open={open} onClose={handleDrawerClose} />
+            <BuildingTopBar 
+                width={width} 
+                open={open} 
+                onOpen={() => toggleDrawer(true)} />
+            <BuildingDrawer 
+                width={width} 
+                open={open} 
+                onClose={() => toggleDrawer(false)} />
 
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />

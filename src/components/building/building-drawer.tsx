@@ -6,7 +6,7 @@ import { IconButton, useTheme } from "@mui/material";
 import { getDrawer, getDrawerHeader } from "./mui-utils";
 import { BuildingSidebar } from "./building-sidebar";
 
-export const SmallDrawer: FC<{
+export const BuildingDrawer: FC<{
     open: boolean;
     width: number;
     onClose: () => void;
