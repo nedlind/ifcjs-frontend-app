@@ -47,7 +47,7 @@ export class MapScene {
     async addBuilding(user: User) {
         const { lat, lng } = this.clickedCoordinates;
         const userID = user.uid;
-        const building = { userID, lat, lng, uid: ""};
+        const building = { userID, lat, lng, uid: "", name: ""};
         building.uid = await this.database.add(building);
         this.addToScene([building]);
     }
@@ -55,7 +55,7 @@ export class MapScene {
     private addToScene(buildings: Building[]) {
         for (const building of buildings) {
             const { uid, lng, lat } = building;
-            const htmlElement = this.createHTMLElement(uid);
+            const htmlElement = this.createHTMLElement(building);
             const label = new CSS2DObject(htmlElement);
             const center = MAPBOX.MercatorCoordinate.fromLngLat({...this.center}, 0);
             const units = center.meterInMercatorCoordinateUnits();
@@ -73,11 +73,11 @@ export class MapScene {
         }
     }
 
-    private createHTMLElement(id: string) {
+    private createHTMLElement(building: Building) {
         const div = document.createElement("div");
         div.textContent = "🏢";
         div.onclick = () => {
-            this.events.trigger({ type: "OPEN_BUILDING", payload: id })
+            this.events.trigger({ type: "OPEN_BUILDING", payload: building })
         };
         div.classList.add("thumbnail");
         return div;

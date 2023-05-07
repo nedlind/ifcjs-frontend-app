@@ -1,15 +1,18 @@
-export type ActionType = 
-// User Auth
-    | "LOGIN" 
-    | "LOGOUT" 
-    | "UPDATE_USER"
-    // Map
-    | "START_MAP" 
-    | "REMOVE_MAP" 
-    | "CREATE_BUILDING"
-    //Building
-    | "OPEN_BUILDING"
-    | "CLOSE_BUILDING";
+export const ActionList = [
+    "LOGIN",
+    "LOGOUT", 
+    "UPDATE_USER",
+    "START_MAP",
+    "REMOVE_MAP", 
+    "CREATE_BUILDING",
+    "OPEN_BUILDING",
+    "CLOSE_BUILDING",
+    "DELETE_BUILDING",
+] as const;
+
+type ActionListType = typeof ActionList;
+
+export type ActionType = ActionListType[number];
 
 export interface Action {
     type: ActionType;
