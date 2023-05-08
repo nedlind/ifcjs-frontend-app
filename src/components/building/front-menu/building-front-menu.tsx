@@ -2,6 +2,7 @@ import { FC } from "react";
 import { BuildingInfoMenu } from "./front-menu-content/building-info-menu";
 import { Card, CardContent, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close"
+import "./building-front-menu.css"
 
 export type FrontMenuMode = "BuildingInfo";
 
