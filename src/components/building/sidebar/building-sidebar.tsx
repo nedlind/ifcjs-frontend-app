@@ -1,14 +1,17 @@
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { FC } from "react";
-import { useAppContext } from "../../middleware/context-provider";
+import { useAppContext } from "../../../middleware/context-provider";
 import { getSidebarTools } from "./sidebar-tools";
 
 const items = ["Models", "Floorplans", "Issues", "Map", "Log out"];
 
-export const BuildingSidebar: FC<{ open: boolean }> = (props) => {
-    const { open } = props;
+export const BuildingSidebar: FC<{ 
+    open: boolean
+    onToggleMenu: () => void 
+    }> = (props) => {
+    const { open, onToggleMenu } = props;
     const [state, dispatch] = useAppContext();
-    const tools = getSidebarTools(state, dispatch);
+    const tools = getSidebarTools(state, dispatch, onToggleMenu);
 
     return (
         <List>

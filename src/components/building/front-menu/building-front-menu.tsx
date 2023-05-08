@@ -1,13 +1,21 @@
 import { FC } from "react";
-import { BuildingInfoMenu } from "./building-info-menu";
+import { BuildingInfoMenu } from "./front-menu-content/building-info-menu";
 import { Card, CardContent, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close"
 
 export type FrontMenuMode = "BuildingInfo";
 
-export const BuildingFrontMenu: FC<{ mode: FrontMenuMode }> = ({ mode }) => {
+export const BuildingFrontMenu: FC<{ 
+    mode: FrontMenuMode;
+    open: boolean;
+    onToggleMenu: (active: boolean) => void
+}> = ({ mode, open, onToggleMenu }) => {
+    if (!open) {
+        return <></>
+    }
     const content = new Map<FrontMenuMode, any>();
-    content.set("BuildingInfo", <BuildingInfoMenu />);
+    const buildingInfoMenu = <BuildingInfoMenu onToggleMenu={onToggleMenu} />
+    content.set("BuildingInfo", buildingInfoMenu );
 
     return (
         <Card className="front-menu">

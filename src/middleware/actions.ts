@@ -7,6 +7,7 @@ export const ActionList = [
     "CREATE_BUILDING",
     "OPEN_BUILDING",
     "CLOSE_BUILDING",
+    "UPDATE_BUILDING",
     "DELETE_BUILDING",
 ] as const;
 

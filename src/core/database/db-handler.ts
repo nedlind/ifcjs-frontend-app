@@ -1,7 +1,7 @@
 import { Events } from './../../middleware/event-handler';
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
 import { Building } from "../../types";
-import { deleteDoc, doc, getFirestore } from 'firebase/firestore';
+import { deleteDoc, doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getApp } from 'firebase/app';
 
 export const databaseHandler = {
@@ -21,4 +21,11 @@ export const databaseHandler = {
         await deleteDoc(doc(dbInstance, "buildings", id));
         events.trigger({ type: "CLOSE_BUILDING" });
     },
+
+    updateBuilding: async (building: Building) => {
+        const dbInstance = getFirestore(getApp());
+        await updateDoc(doc(dbInstance, "buildings", building.uid), {
+            ...building,
+        })
+    }
 };
