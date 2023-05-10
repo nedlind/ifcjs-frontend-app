@@ -17,7 +17,7 @@ export const BuildingTopBar: FC<{
             <Toolbar>
                 <IconButton
                     color="inherit"
-                    aria-aria-label="open drawer"
+                    aria-label="open drawer"
                     onClick={onOpen}
                     edge="start"
                     sx={{

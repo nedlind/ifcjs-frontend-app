@@ -1,5 +1,5 @@
 import { addDoc, collection, getFirestore, onSnapshot, query, where } from "firebase/firestore"
-import { Building } from "../../types";
+import { Building } from "./types";
 import { getApp } from "firebase/app";
 import { User } from "firebase/auth";
 
@@ -8,9 +8,9 @@ export class MapDatabase {
 
     async add(building: Building) {
         const dbInstance = getFirestore(getApp());
-        const { lat, lng, userID, name } = building;
+        const { lat, lng, userID, name, models } = building;
         const result = await addDoc(collection(dbInstance, this.buildings), {
-            lat, lng, userID, name,
+            lat, lng, userID, name, models
         });   
         return result.id;     
     }

@@ -1,12 +1,11 @@
 import { Action } from "../../../middleware/actions";
 import MapIcon from "@mui/icons-material/Map";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ErrorIcon from "@mui/icons-material/GppMaybe";
-import FloorplanIcon from "@mui/icons-material/FindInPage";
 import ModelsIcon from "@mui/icons-material/HolidayVillage";
 import ListIcon from "@mui/icons-material/ViewList";
 import DeleteIcon from "@mui/icons-material/Delete"
 import { State } from "../../../middleware/state";
+import { FrontMenuMode } from "../front-menu/types";
 
 interface SideTool {
     name: string;
@@ -17,35 +16,21 @@ interface SideTool {
 export function getSidebarTools(
     state: State, 
     dispatch: React.Dispatch<Action>,
-    toggleMenu: () => void,
+    toggleMenu: (active?: boolean, mode?: FrontMenuMode) => void,
     ): SideTool[] {
     return [
         {
             name: "Info",
             icon: <ListIcon />,
             action: () => {
-                toggleMenu();
+                toggleMenu(true, "BuildingInfo");
             },
         },
         {
             name: "Models",
             icon: <ModelsIcon />,
             action: () => {
-                console.log("Models!");
-            },
-        },
-        {
-            name: "Floorplans",
-            icon: <FloorplanIcon />,
-            action: () => {
-                console.log("Floorplans!");
-            },
-        },
-        {
-            name: "Issues",
-            icon: <ErrorIcon />,
-            action: () => {
-                console.log("Issues!");
+                toggleMenu(true, "ModelList");
             },
         },
         {

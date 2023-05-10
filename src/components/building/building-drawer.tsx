@@ -5,11 +5,12 @@ import Divider from "@mui/material/Divider";
 import { IconButton, useTheme } from "@mui/material";
 import { getDrawer, getDrawerHeader } from "./mui-utils";
 import { BuildingSidebar } from "./sidebar/building-sidebar";
+import { FrontMenuMode } from "./front-menu/types";
 
 export const BuildingDrawer: FC<{
     open: boolean;
     width: number;
-    onToggleMenu: () => void;
+    onToggleMenu: (active?: boolean, mode?: FrontMenuMode) => void;
     onClose: () => void;
 }> = (props) => {
     const theme = useTheme();
