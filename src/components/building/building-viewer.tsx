@@ -1,12 +1,13 @@
 import { FC, useState } from "react";
 import { useAppContext } from "../../middleware/context-provider";
 import { Navigate } from "react-router-dom";
-import { getDrawerHeader } from "./mui-utils";
+import { getDrawerHeader } from "./side-menus/mui-utils";
 import { Box, CssBaseline } from "@mui/material";
-import { BuildingTopBar } from "./building-topbar";
-import { BuildingDrawer } from "./building-drawer";
+import { BuildingTopBar } from "./side-menus/building-topbar";
+import { BuildingDrawer } from "./side-menus/building-drawer";
 import { BuildingFrontMenu } from "./front-menu/building-front-menu";
 import { FrontMenuMode } from "./front-menu/types";
+import { BuildingViewport } from "./building-viewport/building-viewport";
 
 export const BuildingViewer: FC = () => {
     const [width] = useState(240);
@@ -51,12 +52,12 @@ export const BuildingViewer: FC = () => {
 
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
+                <BuildingViewport />
                 <BuildingFrontMenu
                     onToggleMenu={toggleFrontMenu}
                     open={frontOpen}
                     mode={frontMenu}
                 />
-                <h1>Hello building viewer!</h1>
             </Box>
         </Box>
     )

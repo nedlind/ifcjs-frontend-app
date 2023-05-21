@@ -10,6 +10,7 @@ export const ActionList = [
     "UPDATE_BUILDING",
     "DELETE_BUILDING",
     "UPLOAD_MODEL",
+    "START_MODEL",
     "DELETE_MODEL",
 ] as const;
 

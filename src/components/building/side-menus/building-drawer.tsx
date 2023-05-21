@@ -4,8 +4,8 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Divider from "@mui/material/Divider";
 import { IconButton, useTheme } from "@mui/material";
 import { getDrawer, getDrawerHeader } from "./mui-utils";
-import { BuildingSidebar } from "./sidebar/building-sidebar";
-import { FrontMenuMode } from "./front-menu/types";
+import { BuildingSidebar } from "./building-sidebar";
+import { FrontMenuMode } from "../front-menu/types";
 
 export const BuildingDrawer: FC<{
     open: boolean;
@@ -24,7 +24,7 @@ export const BuildingDrawer: FC<{
         <Drawer variant="permanent" open={open}>
             <DrawerHeader>
                 <IconButton onClick={onClose}>
-                    {theme.direction == "rtl" ? (
+                    {theme.direction === "rtl" ? (
                         <ChevronRightIcon />
                     ) : (
                         <ChevronLeftIcon />

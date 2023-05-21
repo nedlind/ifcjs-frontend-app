@@ -20,9 +20,11 @@ export const ModelListMenu: FC = () => {
         input.onchange = () => {
             if (input.files && input.files.length) {
                 const file = input.files[0];
+                if (!file.name.includes(".ifc")) return;
                 const newBuilding = {...building};
                 const id = `${file.name}-${performance.now()}`;
                 const model = { name: file.name, id};
+
                 newBuilding.models.push(model);
                 dispatch({
                     type: "UPLOAD_MODEL",
