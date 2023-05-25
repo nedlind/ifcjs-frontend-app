@@ -1,9 +1,10 @@
 import { Events } from './../../middleware/event-handler';
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
-import { Building, Model } from "../map/types";
+import { Building, Model } from "../../types";
 import { deleteDoc, doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getApp } from 'firebase/app';
 import {deleteObject, getStorage, ref, uploadBytes } from "firebase/storage"
+import { buildingHandler } from '../building/building-handler';
 
 export const databaseHandler = {
     login: () => {
@@ -25,6 +26,7 @@ export const databaseHandler = {
         for (const model of building.models ) {
             const fileRef = ref(storageInstance, model.id);
             await deleteObject(fileRef);
+            await buildingHandler.deleteModel(model.id);
         }
         events.trigger({ type: "CLOSE_BUILDING" });
     },
@@ -58,6 +60,7 @@ export const databaseHandler = {
         const storageInstance = getStorage(appInstance);
         const fileRef = ref(storageInstance, model.id);
         await deleteObject(fileRef);
+        await buildingHandler.deleteModel(model.id);
         events.trigger({ type: "UPDATE_BUILDING", payload: building });
     },
 };

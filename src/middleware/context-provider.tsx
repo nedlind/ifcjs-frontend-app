@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useReducer, useContext, createContext } from "react";
 import { reducer } from "./state-handler";
-import { initialState, State } from "./state";
+import { initialState, State } from "../state";
 import { Action, ActionList } from "./actions";
 import { executeCore } from "./core-handler";
 import { Authenticator } from "./authenticator";

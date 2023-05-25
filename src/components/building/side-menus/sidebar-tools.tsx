@@ -4,7 +4,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ModelsIcon from "@mui/icons-material/HolidayVillage";
 import ListIcon from "@mui/icons-material/ViewList";
 import DeleteIcon from "@mui/icons-material/Delete"
-import { State } from "../../../middleware/state";
+import { State } from "../../../state";
 import { FrontMenuMode } from "../front-menu/types";
 
 interface SideTool {

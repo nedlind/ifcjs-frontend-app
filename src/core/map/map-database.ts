@@ -1,5 +1,5 @@
 import { addDoc, collection, getFirestore, onSnapshot, query, where } from "firebase/firestore"
-import { Building } from "./types";
+import { Building } from "../../types";
 import { getApp } from "firebase/app";
 import { User } from "firebase/auth";
 

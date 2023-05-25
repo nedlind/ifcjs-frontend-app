@@ -1,11 +1,12 @@
+import { Building } from "../../types";
 import { BuildingScene } from "./building-scene"
 
 export const buildingHandler = {
     viewer: null as BuildingScene | null,
 
-    async start(container: HTMLDivElement) {
+    async start(container: HTMLDivElement, building: Building) {
         if (!this.viewer) {
-            this.viewer = new BuildingScene(container);
+            this.viewer = new BuildingScene(container, building);
         }
     },
 
@@ -21,5 +22,11 @@ export const buildingHandler = {
             throw new Error("Builing viewer not active!");
         }
         return this.viewer.convertIfcToFragments(ifc);
+    },
+
+    async deleteModel(id: string) {
+        if (this.viewer) {
+            await this.viewer.database.deleteModel(id);
+        }
     }
 }

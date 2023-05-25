@@ -1,4 +1,4 @@
-import { Building, GisParameters, LngLat } from './types';
+import { Building, GisParameters, LngLat } from '../../types';
 import * as OBC from "openbim-components";
 import * as MAPBOX from "mapbox-gl";
 import * as THREE from "three";
