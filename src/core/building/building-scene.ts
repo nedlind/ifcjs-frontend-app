@@ -17,6 +17,8 @@ export class BuildingScene {
         return domElement.parentElement as HTMLDivElement;
     }
 
+    private events: { name: any; action: any }[] = [];
+
     constructor(container: HTMLDivElement, building: Building) {
         this.components = new OBC.Components();
 
@@ -46,10 +48,24 @@ export class BuildingScene {
         this.components.tools.add(grid);
 
         this.fragments = new OBC.Fragments(this.components);
+
+        const selectMaterial = new THREE.MeshBasicMaterial({ color: "steelblue" });
+        const preselectMaterial = new THREE.MeshBasicMaterial({
+            color: "steelblue",
+            opacity: 0.5,
+            transparent: true,
+        });
+
+        this.fragments.highlighter.add("selection", [selectMaterial]);
+        this.fragments.highlighter.add("preselection", [preselectMaterial]);
+
+        this.setupEvents();
+
         this.loadAllModels(building);
     }
 
     dispose() {
+        this.toggleEvents(false);
         this.loadedModels.clear();
         this.fragments.dispose();
         this.components.dispose();
@@ -82,6 +98,38 @@ export class BuildingScene {
         return file as File;
 
     }
+
+    private setupEvents() {
+        this.events = [
+            { name: "mousemove", action: this.preselect},
+            { name: "click", action: this.select},
+            { name: "mouseup", action: this.updateCulling },
+            { name: "wheel", action: this.updateCulling },
+        ];
+        this.toggleEvents(true);
+    }
+
+    private toggleEvents(active: boolean) {
+        for (const event of this.events) {
+            if (active) {
+                this.container.addEventListener(event.name, event.action);
+            } else {
+                this.container.removeEventListener(event.name, event.action);
+            }
+        }
+    }
+
+    private updateCulling = () => {
+        this.fragments.culler.needsUpdate = true;
+    };
+
+    private preselect = () => {
+        this.fragments.highlighter.highlight("preselection");
+    };
+
+    private select = () => {
+        this.fragments.highlighter.highlight("selection");
+    };
 
     private async serializeFragments(model: OBC.FragmentGroup) {
         const files = [];
@@ -128,15 +176,12 @@ export class BuildingScene {
                 const dataBlob = await entries[dataName].blob();
 
                 const dataURL = URL.createObjectURL(dataBlob);
-                const fragment = await this.fragments.load(geometryURL, dataURL);
+                await this.fragments.load(geometryURL, dataURL);
 
-                //group fragments
-
-                const groups = { model: {} as any };
-                groups.model[id] = [];
-                this.fragments.groups.add(fragment.id, groups)
-                
                 this.fragments.culler.needsUpdate = true;
+
+                this.fragments.highlighter.update();
+                this.fragments.highlighter.active = true;
             }
         }
     }
