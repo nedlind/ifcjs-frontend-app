@@ -6,18 +6,13 @@ import ListIcon from "@mui/icons-material/ViewList";
 import DeleteIcon from "@mui/icons-material/Delete"
 import { State } from "../../../state";
 import { FrontMenuMode } from "../front-menu/types";
-
-interface SideTool {
-    name: string;
-    icon: any;
-    action: () => void;
-}
+import { Tool } from "../../../types";
 
 export function getSidebarTools(
     state: State, 
     dispatch: React.Dispatch<Action>,
     toggleMenu: (active?: boolean, mode?: FrontMenuMode) => void,
-    ): SideTool[] {
+    ): Tool[] {
     return [
         {
             name: "Info",
