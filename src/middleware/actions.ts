@@ -12,6 +12,7 @@ export const ActionList = [
     "UPLOAD_MODEL",
     "START_MODEL",
     "DELETE_MODEL",
+    "EXPLODE_MODEL",
 ] as const;
 
 type ActionListType = typeof ActionList;

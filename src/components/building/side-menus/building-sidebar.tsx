@@ -4,19 +4,20 @@ import { useAppContext } from "../../../middleware/context-provider";
 import { getSidebarTools } from "./sidebar-tools";
 import { FrontMenuMode } from "../front-menu/types";
 
+const tools = getSidebarTools();
+
 export const BuildingSidebar: FC<{ 
     open: boolean
     onToggleMenu: (active?: boolean, mode?: FrontMenuMode) => void 
     }> = (props) => {
     const { open, onToggleMenu } = props;
     const [state, dispatch] = useAppContext();
-    const tools = getSidebarTools(state, dispatch, onToggleMenu);
 
     return (
         <List>
             {tools.map((tool) => (
                 <ListItem 
-                    onClick={tool.action}
+                    onClick={ () => tool.action({ onToggleMenu, state, dispatch })}
                     key={tool.name} 
                     disablePadding 
                     sx={{ display: "block" }}

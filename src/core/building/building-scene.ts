@@ -49,6 +49,7 @@ export class BuildingScene {
 
         this.fragments = new OBC.Fragments(this.components);
 
+        this.fragments.highlighter.active = true;    
         const selectMaterial = new THREE.MeshBasicMaterial({ color: "steelblue" });
         const preselectMaterial = new THREE.MeshBasicMaterial({
             color: "steelblue",
@@ -62,6 +63,8 @@ export class BuildingScene {
         this.setupEvents();
 
         this.loadAllModels(building);
+
+        this.fragments.exploder.groupName = "floor";
     }
 
     dispose() {
@@ -71,6 +74,16 @@ export class BuildingScene {
         this.components.dispose();
         (this.components as any) = null;
         (this.fragments as any) = null;
+    }
+
+    explode(active: boolean) {
+        const exploder = this.fragments.exploder;
+        //exploder.height = 10000;
+        if (active) {
+            exploder.explode();
+        } else {
+            exploder.reset();
+        }
     }
 
     async convertIfcToFragments(ifc: File) {
@@ -139,8 +152,10 @@ export class BuildingScene {
         }
 
         files.push(new File([JSON.stringify(model.properties)], "properties.json"));
+        files.push(new File([JSON.stringify(model.levelRelationships)], "levels-relationships.json"));
+        files.push(new File([JSON.stringify(model.itemTypes)], "model-types.json"));
         files.push(new File([JSON.stringify(model.allTypes)], "all-types.json"));
-        files.push(new File([JSON.stringify(model.floorsProperties)], "level-properties.json"));
+        files.push(new File([JSON.stringify(model.floorsProperties)], "levels-properties.json"));
         files.push(new File([JSON.stringify(model.coordinationMatrix)], "coordination-matrix.json"));
         files.push(new File([JSON.stringify(model.expressIDFragmentIDMap)], "express-fragment-map.json"));
 
@@ -168,20 +183,55 @@ export class BuildingScene {
                 const name = fileNames[i];
                 if (!name.includes(".glb")) continue;
 
-                //const geometryName = fileNames[i]
-                const geometry = await entries[name].blob();
+                const geometryName = fileNames[i];
+                const geometry = await entries[geometryName].blob();
                 const geometryURL = URL.createObjectURL(geometry);
 
-                const dataName = name.substring(0, name.indexOf(".glb")) + ".json";
+                const dataName = geometryName.substring(0, geometryName.indexOf(".glb")) + ".json";
                 const dataBlob = await entries[dataName].blob();
 
                 const dataURL = URL.createObjectURL(dataBlob);
-                await this.fragments.load(geometryURL, dataURL);
+                const fragment = await this.fragments.load(geometryURL, dataURL);
 
+                // group items by category and by floor
+
+                const data = await entries[dataName].json();
+                const allTypes = await entries["all-types.json"].json();
+                const modelTypes = await entries["model-types.json"].json();
+                const levelsProperties = await entries["levels-properties.json"].json();
+                const levelsRelationship = await entries["levels-relationships.json"].json();
+
+                const groups = { category: {}, floor: {} } as any;
+
+                const floorNames = {} as any;
+                for ( const levelProps of levelsProperties) {
+                    floorNames[levelProps.expressID] = levelProps.Name.value;
+                }
+
+                for ( const id of data.ids ) {
+                    //get the category of the item
+
+                    const categoryExpressID = modelTypes[id];
+                    const category = allTypes[categoryExpressID];
+                    if (!groups.category[category]) {
+                        groups.category[category] = [];
+                    }
+                    groups.category[category].push(id)
+
+                    // get the floors of the item
+
+                    const floorExpressID = levelsRelationship[id];
+                    const floor = floorNames[floorExpressID];
+                    if (!groups["floor"][floor]) {
+                        groups["floor"][floor] = []
+                    }
+                    groups["floor"][floor].push(id);
+                }
+
+                this.fragments.groups.add(fragment.id, groups);
                 this.fragments.culler.needsUpdate = true;
-
                 this.fragments.highlighter.update();
-                this.fragments.highlighter.active = true;
+
             }
         }
     }
