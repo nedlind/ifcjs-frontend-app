@@ -1,3 +1,4 @@
+import { act } from "@testing-library/react";
 import { Building } from "../../types";
 import { BuildingScene } from "./building-scene"
 
@@ -43,5 +44,16 @@ export const buildingHandler = {
         if (this.viewer) {
             this.viewer.explode(active);
         }
-    }
+    },
+
+    toggleClippingPlanes(active: boolean) {
+        if (this.viewer) {
+            this.viewer.toggleClippingPlanes(active);
+        }
+    },
+    toggleDimensions(active: boolean) {
+        if (this.viewer) {
+            this.viewer.toggleDimensions(active);
+        }
+    },
 }
