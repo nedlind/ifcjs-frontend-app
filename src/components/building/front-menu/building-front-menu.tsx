@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close"
 import "./building-front-menu.css"
 import { FrontMenuMode } from "./types";
 import { ModelListMenu } from "./front-menu-content/model-list-menu";
-import { PropertiesMenu } from "./front-menu-content/properties-mennu";
+import { PropertiesMenu } from "./front-menu-content/properties-menu";
 import { FloorplanMenu } from "./front-menu-content/floorplane-menu";
 
 
