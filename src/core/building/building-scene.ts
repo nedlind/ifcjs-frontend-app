@@ -220,7 +220,8 @@ export class BuildingScene {
     private deleteClippingPlaneOrDimension = (event: KeyboardEvent) => {
         if (event.code === "Delete") {
             const dims =this.getDimensions();
-            dims.delete();
+            const test = dims.delete();
+            console.log(test);
             const clipper = this.getClipper();
             clipper.delete();
         }
